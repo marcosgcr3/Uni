@@ -7,9 +7,9 @@
 - Zanatas (llegando al final)
 - Comer
 - Escoger fichas a sacar (Con su implementacion visual)
+-Dado
 
 ## Terminadas
-- **Dado**
 - **Cambio de Turno**
 - **Pausa**
 - **Iniciar jugadres**
