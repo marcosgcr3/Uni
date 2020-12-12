@@ -21,45 +21,158 @@ typedef int tJugadores[NUMERO_DE_JUGADORES][NUMERO_DE_FICHAS];
 typedef enum {Amarillo, Azul, Rojo, Verde, Blanco} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
 
 //Declaracion de funciones
-void pausa();
-void cambiarTurno(int& turno);
-void tablero();
-void iniciar(tJugadores jugadores);
-void setColor(tColor color);
+void pausa(); // Pausa el programa para 
+void cambiarTurno(int& turno); // Cambia el turno
+void iniciar(tJugadores jugadores); // Inicializa las posiciones de todos los jugadores en -1
+void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
 
-bool hayGanador(int finalJuagdores[4]);
-bool esSeguro(int casilla);
-bool enCasa(tJugadores jugadores, tColor color);
-bool hayPuente(tJugadores jugadores, int casilla);
+bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
+bool esSeguro(int casilla); // Determina si una casilla es segura
+bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tiene alguna ficha en casa
 
-int tirarDado();
+int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla);
 
 //PROBANDO FUNCIONES
+bool hayPuente(tJugadores jugadores, int casilla) {
+    return true;
+}
 
+
+void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado de internet
+    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
+        cout << x / 10;
+    }
+    cout << "\n";
+    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
+        cout << x % 10;
+
+    }
+    cout << "\n";
+    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
+        cout << '>';
+
+
+    }
+    cout << "\n";
+    cout << "\n";
+    
+    //Falta otro carril aqui
+    
+    for(int x = 0; x < NUMERO_DE_CASILLAS; x++){ //Carril Central
+        if(esSeguro(x)){
+            cout << "O";
+        }
+        else cout << "-";
+    }
+    cout << "\n";
+
+
+    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
+        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+            if (jugadores[Amarillo][i] == x){
+            cambiarColor(Amarillo);
+            cout << i;
+            cambiarColor(Blanco);
+            }
+        }
+        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+            if (jugadores[Azul][i] == x){
+            cambiarColor(Azul);
+            cout << i;
+            cambiarColor(Blanco);
+            }
+        }
+        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+            if (jugadores[Rojo][i] == x){
+            cambiarColor(Rojo);
+            cout << i;
+            cambiarColor(Blanco);
+            }
+        }
+        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+            if (jugadores[Verde][i] == x){
+            cambiarColor(Verde);
+            cout << i;
+            cambiarColor(Blanco);
+            }
+        }
+    }
+    cout << "\n";/*
+    for (int x = 0; x <= 67; x++) {
+
+        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+            if (jugadores[Amarillo)[i] == x){
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+            cout << i;
+            }
+
+        }
+    }
+    if (pos2 == x) {
+        if (j2 == 'V') {
+            //SetColor(Amarillo)
+                cout << j2;
+        }
+        else if (j2 == 'R') {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+            cout << j2;
+        }
+        else if (j2 == 'A') {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
+            cout << j2;
+        }
+        else if (j2 == 'M') {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+            cout << j2;
+        }
+    }
+    else {
+        cout << " ";
+    }
+
+
+    for (int x = 0; x < 65; x++) {
+
+        if (x == 0) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+            cout << "V";
+        }
+        if (x == 49) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+            cout << "V";
+        }
+        if (x == 16) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
+            cout << "V";
+
+        }
+        if (x == 32) {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+            cout << "V";
+        }
+
+
+        else {
+            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
+            cout << '>';
+        }
+
+    }*/
+}
+//TERMINANDO DE PROBAR FUNCIONES
 
 
 int main(){
     tJugadores jugadores;
 
     int turno = 4; //Iniciado en 4 para que al cambiar de turno al principio comience en el 1
-
     int finalJugadores[4] = {0, 0, 0, 0};
+    
+    jugadores[Azul][1] = 6;
+    jugadores[Verde][3] = 8;
 
-    bool inicioJ1, inicioJ2, inicioJ3, inicioJ4;
-    bool finalJ1 = 0, finalJ2 = 0, finalJ3 = 0, finalJ4 = 0;
-
-    iniciar(jugadores);
-
-    jugadores[Rojo][1] = 2;
-    jugadores[Rojo][2] = 2;
-
-    if (hayPuente(jugadores, 2)){
-        cout << "Si";
-    }
-
-
-    cuantasEn2(jugadores, Amarillo, 3)
+    tablero(jugadores);
      
 
     /*while (!hayGanador(finalJugadores)){
@@ -116,7 +229,7 @@ void iniciar(tJugadores jugadores){ // FUNCIONA
     }
 }
 
-void setColor(tColor color){ // FUNCIONA 
+void cambiarColor(tColor color){ // FUNCIONA 
     switch (color) {
     case Amarillo:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
@@ -144,44 +257,14 @@ void setColor(tColor color){ // FUNCIONA
 
 //Declaracion Ints
 int tirarDado(){ //FUNCIONA
-
-	int dado, resultado = 0;
+	int dado = 0;
     srand(time(NULL));
 	
     dado = 1 + rand() % (7-1);
 
 	cout<<"El resultado de tu dado es: " << dado;
 	
-	resultado += dado;
-
-	if (dado == 6) {
-		cout << "\nEnhorabuena, vuelves a tirar\n";
-		
-        pausa();
-
-        dado = 1 + rand() % (7-1);
-        cout<<"El resultado de tu dado es: " << dado;
-
-		resultado += dado;
-
-		if (dado == 6) {
-			cout << "\nOtro 6 madre mia, estas onfire. Anda vuelves a tirar\n";
-			
-            pausa();
-
-            dado = 1 + rand() % (7-1);
-            cout<<"El resultado de tu dado es: " << dado;
-
-			resultado += dado;
-
-			if (dado == 6) {
-				cout << "A tu casa";
-				resultado = 0;
-			}
-		}
-	}
-
-	return resultado;
+	return dado;
 }
 
 int cuantasEn(tJugadores jugadores, int casilla){
@@ -225,110 +308,4 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
         }
     }
     return false;
-}
-
-bool hayPuente(tJugadores jugadores, int casilla){ // NO FUNCIONA
-    if (cuantasEn(jugadores, casilla) == 2){
-        return true;
-    }
-
-    return false;
-}
-
-
-void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado de internet
-	for (int x = 0; x < 68; x++){
-		cout << x / 10;
-	}
-	cout<< "\n";
-	for(int x = 0; x < 68; x++){
-		cout << x % 10;
-
-	}
-	cout<< "\n";
-    for (int x = 0; x < 68; x++){
-    	cout << '>';
-	
-	
-	}
-	cout<< "\n";
-    cout<< "\n";
-    
-    
-    for (int x = 0; x <= 67; x++) {
-		SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-		if (seguras(x)) {
-			cout << "O";
-		}
-
-		else {
-			cout << "-";
-		}
-	}
-	cout << "\n";
-	for (int x = 0; x <= 67; x++) {
-
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Amarillo)[i] == x){
-                SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
-                cout << i;
-            }
-            
-        }
-    }
-        if (pos2 == x) {
-			if(j2 == 'V'){
-				SetColor(Amarillo)
-				cout<<j2;
-			}
-			else if (j2 == 'R'){
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED);
-				cout<<j2;
-			}
-			else if ( j2 == 'A'){
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE);
-				cout<<j2;
-			}
-			else if (j2 == 'M'){
-				SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_GREEN);
-				cout<<j2;
-			}
-		}
-		else {
-			cout << " ";
-		}
-	}
-	
-	
-	cout << "\n";
-    
-    for (int x = 0; x < 65; x++){
-
-        if(x == 0){
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_GREEN);
-            cout<< "V";
-        }
-        if(x == 49){
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_GREEN);
-            cout<<"V";
-        }
-        if(x == 16){
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_BLUE);
-            cout<<"V";
-
-        }
-        if(x == 32){
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED);
-            cout<<"V";
-        }
-
-
-        else{
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE),FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-    	    cout << '>';
-        }
-	
-	}
-    cout<<"\n";
-	
 }
