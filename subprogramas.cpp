@@ -34,8 +34,8 @@ bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2); // Determina si
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
-int colorAJugador(tColor color);
-int zanataJugador(tColor jugador);
+int colorAJugador(tColor color); // Devuelve el numero del jugador 
+int zanataJugador(tColor jugador); // Devuelve el numero de la zanata de jugador
 
 //PROBANDO FUNCIONES
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
@@ -177,6 +177,8 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
+    
+    //COMIENZAN COMANDOS DE PRUEBA
     jugadores[Amarillo][0] = -1;
     jugadores[Amarillo][1] = -1;
     jugadores[Amarillo][2] = 1;
@@ -189,6 +191,9 @@ int main(){
     jugador = colorAJugador(Amarillo);
     cout << jugador;
 
+    //FINALIZAN COMANDOS DE PRUEBA
+
+    //Bucle principal
     /*while (!hayGanador(finalJugadores)){
         cambiarTurno(turno);
         switch (turno){
