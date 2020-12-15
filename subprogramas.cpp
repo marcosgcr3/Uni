@@ -34,32 +34,33 @@ bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2); // Determina si
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
-
+int colorAJugador(tColor color);
 //PROBANDO FUNCIONES
-void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
+/*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
     int casilla, ficha, jugador;
 
     cout << "\x1b[2J\x1b[H";
-    for (int i = 0; i < NUM_CASILLAS; i++)
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << i / 10;
    cout << endl;
-   for (int i = 0; i < NUM_CASILLAS; i++)
+   for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << i % 10;
    cout << endl;
 
    // Borde superior...
-   for (int i = 0; i < NUM_CASILLAS; i++)
+   for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << '>';
    cout << endl;
 
-   for (int i = 0; i < NUM_CASILLAS; i++) {
+   for (int i = 0; i < NUMERO_DE_CASILLAS; i++) {
       setColor(calle2[i]);
       if (calle2[i] != Ninguno)
-         cout << primeraEn(jugadores[colorAJugador(calle2[i])], i) + 1;
+         //cout << primeraEn(jugadores[colorAJugador(calle2[i])], i) + 1;
       else
          cout << ' ';
       setColor(Gris);
-}
+
+}*/
 
 
 /*void tablero(const tCasillas calle1, const tCasillas calle2) { //Los colores de la consola lo hemos sacado de internet
@@ -199,7 +200,9 @@ int main(){
     jugadores[Verde][3] = 8;
 
     cuantasEn(jugadores, -1, Amarillo);
-     
+    
+    jugador = colorAJugador(Amarillo);
+    cout << jugador;
 
     /*while (!hayGanador(finalJugadores)){
         cambiarTurno(turno);
@@ -317,6 +320,10 @@ int cuantasEn(tJugadores jugadores, int casilla, tColor color){ //FUNCIONA
     return contador;
 }
 
+int colorAJugador(tColor color){
+    int jugador = color;
+    return jugador + 1;
+}
 
 //Declaracion Bools
 bool hayGanador(int finalJugadores[4]){
