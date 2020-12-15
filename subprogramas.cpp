@@ -34,11 +34,12 @@ bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2); // Determina si
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
-int colorAJugador(tColor color);
+int colorAJugador(tColor color); // Devuelve el numero del jugador 
+int zanataJugador(tColor jugador); // Devuelve el numero de la zanata de jugador
+
 //PROBANDO FUNCIONES
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
     int casilla, ficha, jugador;
-
     cout << "\x1b[2J\x1b[H";
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << i / 10;
@@ -46,12 +47,10 @@ int colorAJugador(tColor color);
    for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << i % 10;
    cout << endl;
-
    // Borde superior...
    for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
       cout << '>';
    cout << endl;
-
    for (int i = 0; i < NUMERO_DE_CASILLAS; i++) {
       setColor(calle2[i]);
       if (calle2[i] != Ninguno)
@@ -59,7 +58,6 @@ int colorAJugador(tColor color);
       else
          cout << ' ';
       setColor(Gris);
-
 }*/
 
 
@@ -70,13 +68,10 @@ int colorAJugador(tColor color);
     cout << "\n";
     for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
         cout << x % 10;
-
     }
     cout << "\n";
     for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
         cout << '>';
-
-
     }
     cout << "\n";
     cout << "\n";
@@ -90,7 +85,6 @@ int colorAJugador(tColor color);
         else cout << "-";
     }
     cout << "\n";
-
     //calle1
     for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
         for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
@@ -124,13 +118,11 @@ int colorAJugador(tColor color);
     }
     cout << "\n";/*
     for (int x = 0; x <= 67; x++) {
-
         for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
             if (jugadores[Amarillo)[i] == x){
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
             cout << i;
             }
-
         }
     }
     if (pos2 == x) {
@@ -154,10 +146,7 @@ int colorAJugador(tColor color);
     else {
         cout << " ";
     }
-
-
     for (int x = 0; x < 65; x++) {
-
         if (x == 0) {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
             cout << "V";
@@ -169,19 +158,15 @@ int colorAJugador(tColor color);
         if (x == 16) {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
             cout << "V";
-
         }
         if (x == 32) {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
             cout << "V";
         }
-
-
         else {
             SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
             cout << '>';
         }
-
     }*/
 
 //TERMINANDO DE PROBAR FUNCIONES
@@ -192,6 +177,7 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
+    
     jugadores[Amarillo][0] = -1;
     jugadores[Amarillo][1] = -1;
     jugadores[Amarillo][2] = 1;
@@ -206,7 +192,6 @@ int main(){
 
     /*while (!hayGanador(finalJugadores)){
         cambiarTurno(turno);
-
         switch (turno){
         case 1:
             jugador = Amarillo;
@@ -227,13 +212,11 @@ int main(){
             jugador = Verde;
             //JuegaJugador Verde J4
             break;
-
         default:
             cout << "\n\nError de turno, por favor reinicie el programa\n\n";
             exit(0);
             break;
         }
-
         tablero();        
     }*/
 
@@ -262,6 +245,10 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
         for (int x = 0; x < NUMERO_DE_CASILLAS; x++){
             jugadores[i][x] = -1;
         }
+    }
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        calle1[i] = Ninguno;
+        calle2[i] = Ninguno;
     }
 
     SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE, BACKGROUND_GREEN, BACKGROUND_RED); // Pone el fondo en blanco
@@ -317,13 +304,35 @@ int cuantasEn(tJugadores jugadores, int casilla, tColor color){ //FUNCIONA
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
         if (jugadores[color][i] == casilla) contador++;
     }
-    cout << contador;
     return contador;
 }
 
 int colorAJugador(tColor color){
     int jugador = color;
     return jugador + 1;
+}
+
+int zanataJugador(tColor jugador){
+    switch (jugador){
+    case Amarillo:
+        return 0;
+        break;
+    
+    case Azul:
+        return 17;
+        break;
+
+    case Rojo:
+        return 34;
+        break;
+
+    case Verde:
+        return 51;
+        break;
+
+    default:
+        break;
+    }
 }
 
 //Declaracion Bools
