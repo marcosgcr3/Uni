@@ -178,7 +178,10 @@ int main(){
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
     
+<<<<<<< HEAD
     //COMIENZAN COMANDOS DE PRUEBA
+=======
+>>>>>>> 90fe7a49fe3b11abd0efd7751b8ced5b30fa077e
     jugadores[Amarillo][0] = -1;
     jugadores[Amarillo][1] = -1;
     jugadores[Amarillo][2] = 1;
@@ -191,9 +194,12 @@ int main(){
     jugador = colorAJugador(Amarillo);
     cout << jugador;
 
+<<<<<<< HEAD
     //FINALIZAN COMANDOS DE PRUEBA
 
     //Bucle principal
+=======
+>>>>>>> 90fe7a49fe3b11abd0efd7751b8ced5b30fa077e
     /*while (!hayGanador(finalJugadores)){
         cambiarTurno(turno);
         switch (turno){
@@ -365,4 +371,8 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
         }
     }
     return false;
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 90fe7a49fe3b11abd0efd7751b8ced5b30fa077e
