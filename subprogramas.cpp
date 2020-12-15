@@ -18,28 +18,51 @@ typedef int tJugadores[NUMERO_DE_JUGADORES][NUMERO_DE_FICHAS];
 [F1,F2,F3,F4] //Fichas del Rojo
 [F1,F2,F3,F4] //Fichas del Verde
 */
-typedef enum {Amarillo, Azul, Rojo, Verde, Blanco} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
+typedef enum {Amarillo, Azul, Rojo, Verde, Blanco, Gris, Ninguno} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
+typedef tColor tCasillas[68];
 
 //Declaracion de funciones
 void pausa(); // Pausa el programa para 
 void cambiarTurno(int& turno); // Cambia el turno
-void iniciar(tJugadores jugadores); // Inicializa las posiciones de todos los jugadores en -1
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno); // Inicializa las posiciones de todos los jugadores en -1
 void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
 
 bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
 bool esSeguro(int casilla); // Determina si una casilla es segura
 bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tiene alguna ficha en casa
+bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2); // Determina si hay un puente en una casilla
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
-int cuantasEn(tJugadores jugadores, int casilla);
+int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
 
 //PROBANDO FUNCIONES
-bool hayPuente(tJugadores jugadores, int casilla) {
-    return true;
+void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
+    int casilla, ficha, jugador;
+
+    cout << "\x1b[2J\x1b[H";
+    for (int i = 0; i < NUM_CASILLAS; i++)
+      cout << i / 10;
+   cout << endl;
+   for (int i = 0; i < NUM_CASILLAS; i++)
+      cout << i % 10;
+   cout << endl;
+
+   // Borde superior...
+   for (int i = 0; i < NUM_CASILLAS; i++)
+      cout << '>';
+   cout << endl;
+
+   for (int i = 0; i < NUM_CASILLAS; i++) {
+      setColor(calle2[i]);
+      if (calle2[i] != Ninguno)
+         cout << primeraEn(jugadores[colorAJugador(calle2[i])], i) + 1;
+      else
+         cout << ' ';
+      setColor(Gris);
 }
 
 
-void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado de internet
+/*void tablero(const tCasillas calle1, const tCasillas calle2) { //Los colores de la consola lo hemos sacado de internet
     for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
         cout << x / 10;
     }
@@ -57,7 +80,7 @@ void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado
     cout << "\n";
     cout << "\n";
     
-    //Falta otro carril aqui
+    //Falta otro carril  CALLE2
     
     for(int x = 0; x < NUMERO_DE_CASILLAS; x++){ //Carril Central
         if(esSeguro(x)){
@@ -67,7 +90,7 @@ void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado
     }
     cout << "\n";
 
-
+    //calle1
     for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
         for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
             if (jugadores[Amarillo][i] == x){
@@ -159,20 +182,23 @@ void tablero(tJugadores jugadores) { //Los colores de la consola lo hemos sacado
         }
 
     }*/
-}
+
 //TERMINANDO DE PROBAR FUNCIONES
 
 
 int main(){
     tJugadores jugadores;
-
-    int turno = 4; //Iniciado en 4 para que al cambiar de turno al principio comience en el 1
+    tCasillas calle1, calle2;
+    int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
-    
+    jugadores[Amarillo][0] = -1;
+    jugadores[Amarillo][1] = -1;
+    jugadores[Amarillo][2] = 1;
+    jugadores[Amarillo][3] = 1;
     jugadores[Azul][1] = 6;
     jugadores[Verde][3] = 8;
 
-    tablero(jugadores);
+    cuantasEn(jugadores, -1, Amarillo);
      
 
     /*while (!hayGanador(finalJugadores)){
@@ -180,18 +206,22 @@ int main(){
 
         switch (turno){
         case 1:
+            jugador = Amarillo;
             //JuegaJugador Amarillo J1
             break;
         
         case 2:
+            jugador = Azul;
             //JuegaJugador Azul J2
             break;
         
         case 3:
+            jugador = Rojo;
             //JuegaJugador Rojo J3
             break;
         
         case 4:
+            jugador = Verde;
             //JuegaJugador Verde J4
             break;
 
@@ -221,7 +251,9 @@ void cambiarTurno(int& turno){ // FUNCIONA
     turno++;
 }
 
-void iniciar(tJugadores jugadores){ // FUNCIONA
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){
+    srand(time(NULL));
+    turno = 1 + rand() % (4-1);
     for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
         for (int x = 0; x < NUMERO_DE_CASILLAS; x++){
             jugadores[i][x] = -1;
@@ -250,9 +282,18 @@ void cambiarColor(tColor color){ // FUNCIONA
     case Blanco:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
         break;
+    
+    case Gris:
+        // Aqui poner color gris
+        break;
+
     default:
         break;
     }
+}
+
+void aCasa(tJugadores jugadores, int casilla, tCasillas calle1, tCasillas calle2){ //NO FUNCIONA
+    // jugadores[calle2[casilla]][]
 }
 
 //Declaracion Ints
@@ -267,14 +308,10 @@ int tirarDado(){ //FUNCIONA
 	return dado;
 }
 
-int cuantasEn(tJugadores jugadores, int casilla){
-    int contador = 0;
-    for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
-        for (int x = 0; x < NUMERO_DE_CASILLAS; x++){
-            if (jugadores[i][x] == casilla){
-                contador++;
-            }
-        }
+int cuantasEn(tJugadores jugadores, int casilla, tColor color){ //FUNCIONA
+    int contador = -1;
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        if (jugadores[color][i] == casilla) contador++;
     }
     cout << contador;
     return contador;
@@ -291,13 +328,12 @@ bool hayGanador(int finalJugadores[4]){
     return false;
 }
 
+bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2){ //ESTO HAY QUE VERLO
+    return calle1[casilla] != Ninguno && calle2[casilla] != Ninguno;
+}
+
 bool esSeguro(int casilla){ //FUNCIONA
-	if (casilla == 0 || casilla == 5 || casilla == 12 || casilla == 17 || casilla == 22 || casilla == 29 || casilla == 34 || casilla == 39 || casilla == 46 || casilla == 51 || casilla == 56 || casilla == 63) {
-		return true;
-	}
-	else {
-		return false;
-	}
+    return casilla == 0 || casilla == 5 || casilla == 12 || casilla == 17 || casilla == 22 || casilla == 29 || casilla == 34 || casilla == 39 || casilla == 46 || casilla == 51 || casilla == 56 || casilla == 63;
 }
 
 bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
