@@ -18,7 +18,7 @@ typedef int tJugadores[NUMERO_DE_JUGADORES][NUMERO_DE_FICHAS];
 [F1,F2,F3,F4] //Fichas del Rojo
 [F1,F2,F3,F4] //Fichas del Verde
 */
-typedef enum {Amarillo, Azul, Rojo, Verde, Blanco, Gris, Ninguno} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
+typedef enum {Amarillo, Azul, Rojo, Verde, Gris, Ninguno} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
 typedef tColor tCasillas[68];
 
 //Declaracion de funciones
@@ -257,11 +257,16 @@ void cambiarTurno(int& turno){ // FUNCIONA
 void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){
     srand(time(NULL));
     turno = 1 + rand() % (4-1);
+
     for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
         for (int x = 0; x < NUMERO_DE_CASILLAS; x++){
             jugadores[i][x] = -1;
         }
     }
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE, BACKGROUND_GREEN, BACKGROUND_RED); // Pone el fondo en blanco
+
+    cambiarColor(Gris);    
 }
 
 void cambiarColor(tColor color){ // FUNCIONA 
@@ -281,13 +286,9 @@ void cambiarColor(tColor color){ // FUNCIONA
     case Verde:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
         break;
-
-    case Blanco:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-        break;
     
     case Gris:
-        // Aqui poner color gris
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
         break;
 
     default:
