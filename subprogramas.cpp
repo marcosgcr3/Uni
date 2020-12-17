@@ -366,3 +366,7 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
     }
     return false;
 }
+
+
+
+//Voy a cambiar algo
