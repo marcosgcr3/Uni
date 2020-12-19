@@ -35,15 +35,14 @@ bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2); // 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
 int colorAJugador(tColor color); // Devuelve el numero del jugador 
-int zanataJugador(tColor jugador); // Devuelve el numero de la zanata de jugador
+int zanataJugador(tColor jugador); // Devuelve la casilla de zanata de un jugador
+int salidaJugador(tColor jugador); // Devuelve la casilla de salida de un jugador
 int primeraEn(const tJugadores jugadores, int casilla, tColor color); // Devuleve el menor indice de las fichas del jugador en una casilla
 int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el mayor indice de las fichas del jugador en una casilla
 
 //PROBANDO FUNCIONES
-void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
-    //jugadores[calle2[casilla]][primeraEn(jugadores)] = -1;
-    //calle2[casilla] = Ninguno;
-}
+
+
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
     int casilla, ficha, jugador;
     cout << "\x1b[2J\x1b[H";
@@ -175,6 +174,82 @@ void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
         }
     }*/
 
+
+void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2){
+    int casilla, ficha;
+    tColor jugador;
+
+    cout << "\x1b[2J\x1b[H";
+    cambiarColor(Gris);
+    cout << endl;
+
+    //Previos
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        cout << i / 10;
+    }
+    cout << endl;
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        cout << i % 10;
+    }
+    cout << endl;
+
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        cout << ">";
+    }
+    cout << endl;
+
+    // Calle2
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        cambiarColor(calle2[i]);
+        if (calle2[i] != Ninguno){
+            cout << segundaEn(jugadores, i, calle2[i]) + 1;
+        }
+        else {
+            cout << " ";
+        }
+        cambiarColor(Gris);
+    }
+
+    // Mediana
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        if (esSeguro(i)){
+            cout << "O";
+        }
+        else{
+            cout << "-";
+        }
+        cout << endl;
+    }
+
+    // Calle1
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        cambiarColor(calle1[i]);
+        if (calle1[i] != Ninguno){
+            cout << segundaEn(jugadores, i, calle1[i]) + 1;
+        }
+        else {
+            cout << " ";
+        }
+        cambiarColor(Gris);
+    }
+
+    jugador = Amarillo;
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
+        if (i == zanataJugador(jugador)) {
+            cambiarColor(jugador);
+            cout << "V";
+            cambiarColor(Gris);
+        }
+        else if (i == salidaJugador(jugador)) {
+            cambiarColor(jugador);
+            cout << "^";
+            cambiarColor(Gris);
+            jugador = tColor(int(jugador) + 1);
+        }
+        else
+            cout << '>';
+    cout << endl;
+}
 //TERMINANDO DE PROBAR FUNCIONES
 
 
@@ -183,20 +258,12 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
-    bool prueba;
+    int prueba;
     //COMIENZAN COMANDOS DE PRUEBA
-    jugadores[Amarillo][0] = -1;
-    jugadores[Amarillo][1] = 1;
-    jugadores[Amarillo][2] = 1;
-    jugadores[Amarillo][3] = 1;
-    jugadores[Azul][1] = 6;
-    jugadores[Verde][3] = 8;
-
-
-    calle1[1] = Rojo;
-    calle2[1] = Rojo;
     
-    prueba = hayPuente(1, calle1, calle2);
+    // iniciar(jugadores, calle1, calle2, turno); // No funciona el puñetero iniciar
+
+    prueba = salidaJugador(Azul);
 
     cout << prueba;
     //FINALIZAN COMANDOS DE PRUEBA
@@ -295,10 +362,6 @@ void cambiarColor(tColor color){ // FUNCIONA
     }
 }
 
-void aCasa(tJugadores jugadores, int casilla, tCasillas calle1, tCasillas calle2){ //NO FUNCIONA
-    // jugadores[calle2[casilla]][]
-}
-
 //Declaracion Ints
 int tirarDado(){ //FUNCIONA
 	int dado = 0;
@@ -347,6 +410,31 @@ int zanataJugador(tColor jugador){
         break;
     }
 }
+
+int salidaJugador(tColor jugador){
+    switch (jugador){
+        case Amarillo:
+            return 5;
+            break;
+        
+        case Azul:
+            return 22;
+            break;
+        
+        case Rojo:
+            return 39;
+            break;
+        
+        case Verde:
+            return 56;
+            break;
+        
+        default:
+            return 0;
+            break;
+    }
+}
+
 int primeraEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCIONA
     for (int i = 0; i < NUMERO_DE_FICHAS; i++){
         if (jugadores[color][i] == casilla){
@@ -375,7 +463,7 @@ bool hayGanador(int finalJugadores[4]){
     return false;
 }
 
-bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2){ //ESTO HAY QUE VERLO
+bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2){ // FUNCIONA
     return calle1[casilla] != Ninguno && (calle1[casilla] == calle2[casilla]);
 }
 
