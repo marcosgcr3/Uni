@@ -32,6 +32,7 @@ bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores 
 bool esSeguro(int casilla); // Determina si una casilla es segura
 bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tiene alguna ficha en casa
 bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2); // Determina si hay un puente en una casilla
+bool todasEnMeta(const tJugadores jugadores, tColor color); // Determina si un jugador tiene todas sus casillas en meta
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
@@ -57,11 +58,19 @@ int main(){
 
     int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
-    
-    
 
+
+    jugadores[Amarillo][0] = 108;
+    jugadores[Amarillo][1] = 108;
+    jugadores[Amarillo][2] = 108;
+    jugadores[Amarillo][3] = 108;
+
+    if(todasEnMeta(jugadores, Amarillo)){
+        cout << "Si";
+    }
+    else cout << "no";
     
-    tablero(jugadores, calle1, calle2);
+    //tablero(jugadores, calle1, calle2);
 
     // FINALIZAN COMANDOS DE PRUEBA
 
@@ -101,7 +110,7 @@ int main(){
 }
 
 // VOIDS
-void pausa(){ //FUNCIONA
+void pausa(){ // FUNCIONA
    cout << "\n\nPulsa Intro para continuar...\n\n";
    cin.ignore();
 }
@@ -113,7 +122,7 @@ void cambiarTurno(int& turno){ // FUNCIONA
     turno++;
 }
 
-void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){ // FUNCIONA
     srand(time(NULL));
     turno = 1 + rand() % (4-1);
 
@@ -159,7 +168,7 @@ void cambiarColor(tColor color){ // FUNCIONA
     }
 }
 
-void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2){
+void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2){ // FUNCIONA
     int casilla, ficha;
     tColor jugador;
 
@@ -399,4 +408,8 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
         }
     }
     return false;
+}
+
+bool todasEnMeta(const tJugadores jugadores, tColor color){ // FUNCIONA
+    return jugadores[color][0] == 108 && jugadores[color][1] == 108 && jugadores[color][2] == 108 && jugadores[color][3] == 108;
 }
