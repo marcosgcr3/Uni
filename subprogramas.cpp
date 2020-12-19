@@ -24,8 +24,9 @@ typedef tColor tCasillas[NUMERO_DE_CASILLAS];
 // Declaracion de funciones
 void pausa(); // Pausa el programa para 
 void cambiarTurno(int& turno); // Cambia el turno
-void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno);
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno); // Inicializa las fichas en -1, las calles en Ninguno y el primer turno
 void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
+void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2); // Muestra el tablero
 
 bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
 bool esSeguro(int casilla); // Determina si una casilla es segura
@@ -43,137 +44,120 @@ int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelv
 // PROBANDO FUNCIONES
 
 
-/*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
-    int casilla, ficha, jugador;
-    cout << "\x1b[2J\x1b[H";
-    for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
-      cout << i / 10;
-   cout << endl;
-   for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
-      cout << i % 10;
-   cout << endl;
-   // Borde superior...
-   for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
-      cout << '>';
-   cout << endl;
-   for (int i = 0; i < NUMERO_DE_CASILLAS; i++) {
-      setColor(calle2[i]);
-      if (calle2[i] != Ninguno)
-         //cout << primeraEn(jugadores[colorAJugador(calle2[i])], i) + 1;
-      else
-         cout << ' ';
-      setColor(Gris);
-}*/
+// TERMINANDO DE PROBAR FUNCIONES
 
 
-/*void tablero(const tCasillas calle1, const tCasillas calle2) { //Los colores de la consola lo hemos sacado de internet
-    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
-        cout << x / 10;
-    }
-    cout << "\n";
-    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
-        cout << x % 10;
-    }
-    cout << "\n";
-    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
-        cout << '>';
-    }
-    cout << "\n";
-    cout << "\n";
+int main(){
+    tJugadores jugadores;
+    tCasillas calle1, calle2;
+    int turno, jugador;
+    int finalJugadores[4] = {0, 0, 0, 0};
+
+    iniciar(jugadores, calle1, calle2, turno);
+
+    int prueba;
+    // COMIENZAN COMANDOS DE PRUEBA
     
-    //Falta otro carril  CALLE2
     
-    for(int x = 0; x < NUMERO_DE_CASILLAS; x++){ //Carril Central
-        if(esSeguro(x)){
-            cout << "O";
+
+    
+    tablero(jugadores, calle1, calle2);
+
+    // FINALIZAN COMANDOS DE PRUEBA
+
+    // Bucle principal
+    /*while (!hayGanador(finalJugadores)){
+        cambiarTurno(turno);
+        switch (turno){
+        case 1:
+            jugador = Amarillo;
+            //JuegaJugador Amarillo J1
+            break;
+        
+        case 2:
+            jugador = Azul;
+            //JuegaJugador Azul J2
+            break;
+        
+        case 3:
+            jugador = Rojo;
+            //JuegaJugador Rojo J3
+            break;
+        
+        case 4:
+            jugador = Verde;
+            //JuegaJugador Verde J4
+            break;
+        default:
+            cout << "\n\nError de turno, por favor reinicie el programa\n\n";
+            exit(0);
+            break;
         }
-        else cout << "-";
-    }
-    cout << "\n";
-    //calle1
-    for (int x = 0; x < NUMERO_DE_CASILLAS; x++) {
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Amarillo][i] == x){
-            cambiarColor(Amarillo);
-            cout << i;
-            cambiarColor(Blanco);
-            }
-        }
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Azul][i] == x){
-            cambiarColor(Azul);
-            cout << i;
-            cambiarColor(Blanco);
-            }
-        }
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Rojo][i] == x){
-            cambiarColor(Rojo);
-            cout << i;
-            cambiarColor(Blanco);
-            }
-        }
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Verde][i] == x){
-            cambiarColor(Verde);
-            cout << i;
-            cambiarColor(Blanco);
-            }
-        }
-    }
-    cout << "\n";/*
-    for (int x = 0; x <= 67; x++) {
-        for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
-            if (jugadores[Amarillo)[i] == x){
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
-            cout << i;
-            }
-        }
-    }
-    if (pos2 == x) {
-        if (j2 == 'V') {
-            //SetColor(Amarillo)
-                cout << j2;
-        }
-        else if (j2 == 'R') {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
-            cout << j2;
-        }
-        else if (j2 == 'A') {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-            cout << j2;
-        }
-        else if (j2 == 'M') {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
-            cout << j2;
-        }
-    }
-    else {
-        cout << " ";
-    }
-    for (int x = 0; x < 65; x++) {
-        if (x == 0) {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
-            cout << "V";
-        }
-        if (x == 49) {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
-            cout << "V";
-        }
-        if (x == 16) {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-            cout << "V";
-        }
-        if (x == 32) {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
-            cout << "V";
-        }
-        else {
-            SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_BLUE);
-            cout << '>';
-        }
+        tablero(jugadores, calle1, calle2);        
     }*/
 
+
+    return 0;
+}
+
+// VOIDS
+void pausa(){ //FUNCIONA
+   cout << "\n\nPulsa Intro para continuar...\n\n";
+   cin.ignore();
+}
+
+void cambiarTurno(int& turno){ // FUNCIONA
+    if(turno == 4){
+        turno = 0;
+    }
+    turno++;
+}
+
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){
+    srand(time(NULL));
+    turno = 1 + rand() % (4-1);
+
+    for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
+        for (int x = 0; x < NUMERO_DE_FICHAS; x++){
+            jugadores[i][x] = -1;
+        }
+    }
+    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
+        calle1[i] = Ninguno;
+        calle2[i] = Ninguno;
+    }
+
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED); // Pone el fondo en blanco
+
+    cambiarColor(Gris);    
+}
+
+void cambiarColor(tColor color){ // FUNCIONA 
+    switch (color) {
+    case Amarillo:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+        break;
+
+    case Azul:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
+        break;
+
+    case Rojo:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+        break;
+
+    case Verde:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+        break;
+    
+    case Gris:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
+        break;
+
+    default:
+        break;
+    }
+}
 
 void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2){
     int casilla, ficha;
@@ -296,117 +280,6 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         }
         cout << endl;
    }
-}
-// TERMINANDO DE PROBAR FUNCIONES
-
-
-int main(){
-    tJugadores jugadores;
-    tCasillas calle1, calle2;
-    int turno, jugador;
-    int finalJugadores[4] = {0, 0, 0, 0};
-    int prueba;
-    // COMIENZAN COMANDOS DE PRUEBA
-    
-    iniciar(jugadores, calle1, calle2, turno);
-
-    
-    tablero(jugadores, calle1, calle2);
-
-    // FINALIZAN COMANDOS DE PRUEBA
-
-    // Bucle principal
-    /*while (!hayGanador(finalJugadores)){
-        cambiarTurno(turno);
-        switch (turno){
-        case 1:
-            jugador = Amarillo;
-            //JuegaJugador Amarillo J1
-            break;
-        
-        case 2:
-            jugador = Azul;
-            //JuegaJugador Azul J2
-            break;
-        
-        case 3:
-            jugador = Rojo;
-            //JuegaJugador Rojo J3
-            break;
-        
-        case 4:
-            jugador = Verde;
-            //JuegaJugador Verde J4
-            break;
-        default:
-            cout << "\n\nError de turno, por favor reinicie el programa\n\n";
-            exit(0);
-            break;
-        }
-        tablero();        
-    }*/
-
-
-    return 0;
-}
-
-// VOIDS
-void pausa(){ //FUNCIONA
-   cout << "\n\nPulsa Intro para continuar...\n\n";
-   cin.ignore();
-}
-
-void cambiarTurno(int& turno){ // FUNCIONA
-    if(turno == 4){
-        turno = 0;
-    }
-    turno++;
-}
-
-void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno){
-    srand(time(NULL));
-    turno = 1 + rand() % (4-1);
-
-    for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
-        for (int x = 0; x < NUMERO_DE_FICHAS; x++){
-            jugadores[i][x] = -1;
-        }
-    }
-    for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
-        calle1[i] = Ninguno;
-        calle2[i] = Ninguno;
-    }
-
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED); // Pone el fondo en blanco
-
-    cambiarColor(Gris);    
-}
-
-void cambiarColor(tColor color){ // FUNCIONA 
-    switch (color) {
-    case Amarillo:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
-        break;
-
-    case Azul:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
-        break;
-
-    case Rojo:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
-        break;
-
-    case Verde:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
-        break;
-    
-    case Gris:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
-        break;
-
-    default:
-        break;
-    }
 }
 
 // INTS
