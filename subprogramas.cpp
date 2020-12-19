@@ -19,7 +19,7 @@ typedef int tJugadores[NUMERO_DE_JUGADORES][NUMERO_DE_FICHAS];
 [F1,F2,F3,F4] //Fichas del Verde
 */
 typedef enum {Amarillo, Azul, Rojo, Verde, Gris, Ninguno} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
-typedef tColor tCasillas[68];
+typedef tColor tCasillas[NUMERO_DE_CASILLAS];
 
 //Declaracion de funciones
 void pausa(); // Pausa el programa para 
@@ -30,19 +30,19 @@ void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en
 bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
 bool esSeguro(int casilla); // Determina si una casilla es segura
 bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tiene alguna ficha en casa
-bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2); // Determina si hay un puente en una casilla
+bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2); // Determina si hay un puente en una casilla
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
 int colorAJugador(tColor color); // Devuelve el numero del jugador 
 int zanataJugador(tColor jugador); // Devuelve el numero de la zanata de jugador
+int primeraEn(const tJugadores jugadores, int casilla, tColor color); // Devuleve el menor indice de las fichas del jugador en una casilla
 int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el mayor indice de las fichas del jugador en una casilla
 
 //PROBANDO FUNCIONES
-
-
 void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
-    // jugadores[calle2[casilla]][]
+    //jugadores[calle2[casilla]][primeraEn(jugadores)] = -1;
+    //calle2[casilla] = Ninguno;
 }
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
     int casilla, ficha, jugador;
@@ -183,18 +183,20 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
-    int prueba;
+    bool prueba;
     //COMIENZAN COMANDOS DE PRUEBA
     jugadores[Amarillo][0] = -1;
-    jugadores[Amarillo][1] = -1;
+    jugadores[Amarillo][1] = 1;
     jugadores[Amarillo][2] = 1;
-    jugadores[Amarillo][3] = 0;
+    jugadores[Amarillo][3] = 1;
     jugadores[Azul][1] = 6;
     jugadores[Verde][3] = 8;
 
-    //cuantasEn(jugadores, -1, Amarillo);
+
+    calle1[1] = Rojo;
+    calle2[1] = Rojo;
     
-    prueba = primeraEn(jugadores, 1, Amarillo);
+    prueba = hayPuente(1, calle1, calle2);
 
     cout << prueba;
     //FINALIZAN COMANDOS DE PRUEBA
@@ -345,8 +347,16 @@ int zanataJugador(tColor jugador){
         break;
     }
 }
+int primeraEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCIONA
+    for (int i = 0; i < NUMERO_DE_FICHAS; i++){
+        if (jugadores[color][i] == casilla){
+            return i;
+        }
+    }
+    return -1;
+}
 
-int segundaEn(const tJugadores jugadores, int casilla, tColor color){
+int segundaEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCIONA
     for (int i = 3; i >= 0; i--){
         if (jugadores[color][i] == casilla) {
             return i;
@@ -365,8 +375,8 @@ bool hayGanador(int finalJugadores[4]){
     return false;
 }
 
-bool hayPuente(int casilla, tCasillas calle1, tCasillas calle2){ //ESTO HAY QUE VERLO
-    return calle1[casilla] != Ninguno && calle2[casilla] != Ninguno;
+bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2){ //ESTO HAY QUE VERLO
+    return calle1[casilla] != Ninguno && (calle1[casilla] == calle2[casilla]);
 }
 
 bool esSeguro(int casilla){ //FUNCIONA
