@@ -21,10 +21,10 @@ typedef int tJugadores[NUMERO_DE_JUGADORES][NUMERO_DE_FICHAS];
 typedef enum {Amarillo, Azul, Rojo, Verde, Gris, Ninguno} tColor; // Amarillo = 0, Azul = 1, Rojo = 2, Verde = 3, Blanco = 4
 typedef tColor tCasillas[NUMERO_DE_CASILLAS];
 
-//Declaracion de funciones
+// Declaracion de funciones
 void pausa(); // Pausa el programa para 
 void cambiarTurno(int& turno); // Cambia el turno
-void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno); // Inicializa las posiciones de todos los jugadores en -1
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno);
 void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
 
 bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
@@ -33,14 +33,14 @@ bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tien
 bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2); // Determina si hay un puente en una casilla
 
 int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
-int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
+int cuantasEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
 int colorAJugador(tColor color); // Devuelve el numero del jugador 
 int zanataJugador(tColor jugador); // Devuelve la casilla de zanata de un jugador
 int salidaJugador(tColor jugador); // Devuelve la casilla de salida de un jugador
 int primeraEn(const tJugadores jugadores, int casilla, tColor color); // Devuleve el menor indice de las fichas del jugador en una casilla
 int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el mayor indice de las fichas del jugador en una casilla
 
-//PROBANDO FUNCIONES
+// PROBANDO FUNCIONES
 
 
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
@@ -209,6 +209,7 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         }
         cambiarColor(Gris);
     }
+    cout << endl;
 
     // Mediana
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
@@ -218,8 +219,8 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         else{
             cout << "-";
         }
-        cout << endl;
     }
+    cout << endl;
 
     // Calle1
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
@@ -232,6 +233,7 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         }
         cambiarColor(Gris);
     }
+    cout << endl;
 
     jugador = Amarillo;
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++)
@@ -249,8 +251,53 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         else
             cout << '>';
     cout << endl;
+
+    for (int i = 0; i < NUMERO_DE_FICHAS; i++) {
+        casilla = 0;
+        jugador = Amarillo;
+        cambiarColor(jugador);
+        while (casilla < NUMERO_DE_CASILLAS){
+            if (casilla == zanataJugador(jugador)){
+                ficha = primeraEn(jugadores, 101 + i, jugador);
+                if (ficha != -1){
+                    cout << ficha + 1;
+                    if (cuantasEn(jugadores, 101 + i, jugador) > 1){
+                        ficha = segundaEn(jugadores, 101 + i, jugador);
+                        if (ficha != -1){
+                            cout << ficha + 1;
+                        }
+                        else{
+                            cout << "V";
+                        }
+                    }
+                    else {
+                        cout << "V";
+                    }
+                }
+                else {
+                    cout << "VV";
+                }
+                casilla++;
+            }
+            else if (casilla == salidaJugador(jugador)) {
+                if (jugadores[jugador][i] == -1){
+                    cout << i + 1;
+                }
+                else {
+                    cout << "^";
+                }
+                jugador = tColor(int(jugador) + 1);
+                cambiarColor(jugador);
+            }
+            else{
+                cout << " ";
+            }
+            casilla++;
+        }
+        cout << endl;
+   }
 }
-//TERMINANDO DE PROBAR FUNCIONES
+// TERMINANDO DE PROBAR FUNCIONES
 
 
 int main(){
@@ -259,16 +306,16 @@ int main(){
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
     int prueba;
-    //COMIENZAN COMANDOS DE PRUEBA
+    // COMIENZAN COMANDOS DE PRUEBA
     
-    // iniciar(jugadores, calle1, calle2, turno); // No funciona el puñetero iniciar
+    iniciar(jugadores, calle1, calle2, turno);
 
-    prueba = salidaJugador(Azul);
+    
+    tablero(jugadores, calle1, calle2);
 
-    cout << prueba;
-    //FINALIZAN COMANDOS DE PRUEBA
+    // FINALIZAN COMANDOS DE PRUEBA
 
-    //Bucle principal
+    // Bucle principal
     /*while (!hayGanador(finalJugadores)){
         cambiarTurno(turno);
         switch (turno){
@@ -303,7 +350,7 @@ int main(){
     return 0;
 }
 
-//Declaracion Voids
+// VOIDS
 void pausa(){ //FUNCIONA
    cout << "\n\nPulsa Intro para continuar...\n\n";
    cin.ignore();
@@ -321,7 +368,7 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
     turno = 1 + rand() % (4-1);
 
     for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
-        for (int x = 0; x < NUMERO_DE_CASILLAS; x++){
+        for (int x = 0; x < NUMERO_DE_FICHAS; x++){
             jugadores[i][x] = -1;
         }
     }
@@ -362,8 +409,8 @@ void cambiarColor(tColor color){ // FUNCIONA
     }
 }
 
-//Declaracion Ints
-int tirarDado(){ //FUNCIONA
+// INTS
+int tirarDado(){ // FUNCIONA
 	int dado = 0;
     srand(time(NULL));
 	
@@ -374,7 +421,7 @@ int tirarDado(){ //FUNCIONA
 	return dado;
 }
 
-int cuantasEn(tJugadores jugadores, int casilla, tColor color){ //FUNCIONA
+int cuantasEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCIONA
     int contador = -1;
     for (int i = 0; i < NUMERO_DE_CASILLAS; i++){
         if (jugadores[color][i] == casilla) contador++;
@@ -382,12 +429,12 @@ int cuantasEn(tJugadores jugadores, int casilla, tColor color){ //FUNCIONA
     return contador;
 }
 
-int colorAJugador(tColor color){
+int colorAJugador(tColor color){ // FUNCIONA
     int jugador = color;
     return jugador + 1;
 }
 
-int zanataJugador(tColor jugador){
+int zanataJugador(tColor jugador){ // FUNCIONA
     switch (jugador){
     case Amarillo:
         return 0;
@@ -411,27 +458,27 @@ int zanataJugador(tColor jugador){
     }
 }
 
-int salidaJugador(tColor jugador){
+int salidaJugador(tColor jugador){ // FUNCIONA
     switch (jugador){
-        case Amarillo:
-            return 5;
-            break;
+    case Amarillo:
+        return 5;
+        break;
         
-        case Azul:
-            return 22;
-            break;
+    case Azul:
+        return 22;
+        break;
         
-        case Rojo:
-            return 39;
-            break;
+    case Rojo:
+        return 39;
+        break;
         
-        case Verde:
-            return 56;
-            break;
+    case Verde:
+        return 56;
+        break;
         
-        default:
-            return 0;
-            break;
+    default:
+        return 0;
+        break;
     }
 }
 
@@ -453,8 +500,8 @@ int segundaEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCION
     return -1;
 }
 
-//Declaracion Bools
-bool hayGanador(int finalJugadores[4]){
+// BOOLS
+bool hayGanador(int finalJugadores[4]){ // CREO QUE FUNCIONA
     for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
         if (finalJugadores[i] == 1){
             return true;
@@ -480,7 +527,3 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
     }
     return false;
 }
-
-
-
-//Voy a cambiar algo
