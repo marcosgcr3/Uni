@@ -36,8 +36,14 @@ int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6
 int cuantasEn(tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
 int colorAJugador(tColor color); // Devuelve el numero del jugador 
 int zanataJugador(tColor jugador); // Devuelve el numero de la zanata de jugador
+int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el mayor indice de las fichas del jugador en una casilla
 
 //PROBANDO FUNCIONES
+
+
+void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
+    // jugadores[calle2[casilla]][]
+}
 /*void tablero(const tJugadores jugadores, tCasillas calle1, tCasillas calle2){
     int casilla, ficha, jugador;
     cout << "\x1b[2J\x1b[H";
@@ -177,20 +183,20 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
-    
+    int prueba;
     //COMIENZAN COMANDOS DE PRUEBA
     jugadores[Amarillo][0] = -1;
     jugadores[Amarillo][1] = -1;
     jugadores[Amarillo][2] = 1;
-    jugadores[Amarillo][3] = 1;
+    jugadores[Amarillo][3] = 0;
     jugadores[Azul][1] = 6;
     jugadores[Verde][3] = 8;
 
-    cuantasEn(jugadores, -1, Amarillo);
+    //cuantasEn(jugadores, -1, Amarillo);
     
-    jugador = colorAJugador(Amarillo);
-    cout << jugador;
+    prueba = primeraEn(jugadores, 1, Amarillo);
 
+    cout << prueba;
     //FINALIZAN COMANDOS DE PRUEBA
 
     //Bucle principal
@@ -255,7 +261,7 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
         calle2[i] = Ninguno;
     }
 
-    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE, BACKGROUND_GREEN, BACKGROUND_RED); // Pone el fondo en blanco
+    SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), BACKGROUND_BLUE | BACKGROUND_GREEN | BACKGROUND_RED); // Pone el fondo en blanco
 
     cambiarColor(Gris);    
 }
@@ -335,8 +341,18 @@ int zanataJugador(tColor jugador){
         break;
 
     default:
+        return 0;
         break;
     }
+}
+
+int segundaEn(const tJugadores jugadores, int casilla, tColor color){
+    for (int i = 3; i >= 0; i--){
+        if (jugadores[color][i] == casilla) {
+            return i;
+        }
+    }
+    return -1;
 }
 
 //Declaracion Bools
