@@ -22,25 +22,25 @@ typedef enum {Amarillo, Azul, Rojo, Verde, Gris, Ninguno} tColor; // Amarillo = 
 typedef tColor tCasillas[NUMERO_DE_CASILLAS];
 
 // Declaracion de funciones
-void pausa(); // Pausa el programa para 
-void cambiarTurno(int& turno); // Cambia el turno
-void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno); // Inicializa las fichas en -1, las calles en Ninguno y el primer turno
-void cambiarColor(tColor color); // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
-void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2); // Muestra el tablero
+void pausa();                                                                               // Pausa el programa para 
+void cambiarTurno(int& turno);                                                              // Cambia el turno
+void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turno);         // Inicializa las fichas en -1, las calles en Ninguno y el primer turno
+void cambiarColor(tColor color);                                                            // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
+void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2);   // Muestra el tablero
 
-bool hayGanador(int finalJuagdores[4]); // Determina si alguno de los jugadores ha ganado
-bool esSeguro(int casilla); // Determina si una casilla es segura
-bool enCasa(tJugadores jugadores, tColor color); // Determina si un jugador tiene alguna ficha en casa
-bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2); // Determina si hay un puente en una casilla
-bool todasEnMeta(const tJugadores jugadores, tColor color); // Determina si un jugador tiene todas sus casillas en meta
+bool hayGanador(int finalJuagdores[4]);                                         // Determina si alguno de los jugadores ha ganado
+bool esSeguro(int casilla);                                                     // Determina si una casilla es segura
+bool enCasa(tJugadores jugadores, tColor color);                                // Determina si un jugador tiene alguna ficha en casa
+bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2);    // Determina si hay un puente en una casilla
+bool todasEnMeta(const tJugadores jugadores, tColor color);                     // Determina si un jugador tiene todas sus casillas en meta
 
-int tirarDado(); // Crea un numero aleatorio entre el 1 y el 6 
-int cuantasEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el numero de fichas que tiene un jugador en una casilla
-int colorAJugador(tColor color); // Devuelve el numero del jugador 
-int zanataJugador(tColor jugador); // Devuelve la casilla de zanata de un jugador
-int salidaJugador(tColor jugador); // Devuelve la casilla de salida de un jugador
-int primeraEn(const tJugadores jugadores, int casilla, tColor color); // Devuleve el menor indice de las fichas del jugador en una casilla
-int segundaEn(const tJugadores jugadores, int casilla, tColor color); // Devuelve el mayor indice de las fichas del jugador en una casilla
+int tirarDado();                                                        // Crea un numero aleatorio entre el 1 y el 6 
+int cuantasEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el numero de fichas que tiene un jugador en una casilla
+int colorAJugador(tColor color);                                        // Devuelve el numero del jugador 
+int zanataJugador(tColor jugador);                                      // Devuelve la casilla de zanata de un jugador
+int salidaJugador(tColor jugador);                                      // Devuelve la casilla de salida de un jugador
+int primeraEn(const tJugadores jugadores, int casilla, tColor color);   // Devuleve el menor indice de las fichas del jugador en una casilla
+int segundaEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el mayor indice de las fichas del jugador en una casilla
 
 // PROBANDO FUNCIONES
 
@@ -59,18 +59,8 @@ int main(){
     int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
 
-
-    jugadores[Amarillo][0] = 108;
-    jugadores[Amarillo][1] = 108;
-    jugadores[Amarillo][2] = 108;
-    jugadores[Amarillo][3] = 108;
-
-    if(todasEnMeta(jugadores, Amarillo)){
-        cout << "Si";
-    }
-    else cout << "no";
     
-    //tablero(jugadores, calle1, calle2);
+    tablero(jugadores, calle1, calle2);
 
     // FINALIZAN COMANDOS DE PRUEBA
 
