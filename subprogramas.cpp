@@ -43,7 +43,20 @@ int primeraEn(const tJugadores jugadores, int casilla, tColor color);   // Devul
 int segundaEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el mayor indice de las fichas del jugador en una casilla
 
 // PROBANDO FUNCIONES
+void saleFicha(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2){
+    int casillaSalida, indiceFichaASalir;
+    casillaSalida = salidaJugador(jugador);
+    indiceFichaASalir = primeraEn(jugadores, -1, jugador);
 
+    if(calle1[casillaSalida] != Ninguno){
+        calle2[casillaSalida] = jugador;
+        jugadores[jugador][indiceFichaASalir] = casillaSalida;
+    }
+    else{
+        calle1[casillaSalida] = jugador;
+        jugadores[jugador][indiceFichaASalir] = casillaSalida;
+    }
+}
 
 // TERMINANDO DE PROBAR FUNCIONES
 
@@ -58,8 +71,15 @@ int main(){
 
     int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
-
     
+    tablero(jugadores, calle1, calle2);
+ 
+    saleFicha(jugadores, Amarillo, calle1, calle2);
+ 
+    tablero(jugadores, calle1, calle2);
+
+    saleFicha(jugadores, Azul, calle1, calle2);
+
     tablero(jugadores, calle1, calle2);
 
     // FINALIZAN COMANDOS DE PRUEBA
