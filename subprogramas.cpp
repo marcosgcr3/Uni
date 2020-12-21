@@ -28,7 +28,7 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
 void cambiarColor(tColor color);                                                            // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
 void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2);   // Muestra el tablero
 
-bool hayGanador(int finalJuagdores[4]);                                         // Determina si alguno de los jugadores ha ganado
+bool hayGanador(int finalJuagdores[4], tJugadores jugadores);                                         // Determina si alguno de los jugadores ha ganado
 bool esSeguro(int casilla);                                                     // Determina si una casilla es segura
 bool enCasa(tJugadores jugadores, tColor color);                                // Determina si un jugador tiene alguna ficha en casa
 bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2);    // Determina si hay un puente en una casilla
@@ -41,6 +41,8 @@ int zanataJugador(tColor jugador);                                      // Devue
 int salidaJugador(tColor jugador);                                      // Devuelve la casilla de salida de un jugador
 int primeraEn(const tJugadores jugadores, int casilla, tColor color);   // Devuleve el menor indice de las fichas del jugador en una casilla
 int segundaEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el mayor indice de las fichas del jugador en una casilla
+
+tColor jugadorAColor(int i);
 
 // PROBANDO FUNCIONES
 void saleFicha(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2){
@@ -63,6 +65,8 @@ void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
     calle2[casilla] = Ninguno;
 }
 
+
+
 // TERMINANDO DE PROBAR FUNCIONES
 
 
@@ -74,23 +78,22 @@ int main(){
 
     iniciar(jugadores, calle1, calle2, turno);
 
+    jugadores[Amarillo][0] = 108;
+    jugadores[Amarillo][1] = 108;
+    jugadores[Amarillo][2] = 108;
+    jugadores[Amarillo][3] = 108;
+
+    if(hayGanador(finalJugadores, jugadores)){
+        cout << "Funciona!!!";
+    }
+
     int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
- 
-    saleFicha(jugadores, Amarillo, calle1, calle2);
-
-    saleFicha(jugadores, Amarillo, calle1, calle2);
-
-    tablero(jugadores, calle1, calle2);
-
-    aCasa(jugadores, 5, calle2);
-
-    tablero(jugadores, calle1, calle2);
 
     // FINALIZAN COMANDOS DE PRUEBA
 
     // Bucle principal
-    /*while (!hayGanador(finalJugadores)){
+    /*while (!hayGanador(finalJugadores, jugadores)){
         cambiarTurno(turno);
         switch (turno){
         case 1:
@@ -398,7 +401,13 @@ int segundaEn(const tJugadores jugadores, int casilla, tColor color){ // FUNCION
 }
 
 // BOOLS
-bool hayGanador(int finalJugadores[4]){ // CREO QUE FUNCIONA
+bool hayGanador(int finalJugadores[4], tJugadores jugadores){ // FUNCIONA
+    for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
+        if (todasEnMeta(jugadores, jugadorAColor(i))){
+            finalJugadores[i] = 1;
+        }
+    }
+    
     for (int i = 0; i < NUMERO_DE_JUGADORES; i++){
         if (finalJugadores[i] == 1){
             return true;
@@ -427,4 +436,26 @@ bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
 
 bool todasEnMeta(const tJugadores jugadores, tColor color){ // FUNCIONA
     return jugadores[color][0] == 108 && jugadores[color][1] == 108 && jugadores[color][2] == 108 && jugadores[color][3] == 108;
+}
+
+tColor jugadorAColor(int i){ // FUNCIONA
+    switch (i)
+    {
+    case 0:
+        return Amarillo;
+        break;
+    case 1:
+        return Azul;
+        break;
+    case 2:
+        return Rojo;
+        break;
+    case 3:
+        return Verde;
+        break;
+    
+    default:
+    return Ninguno;
+        break;
+    }
 }
