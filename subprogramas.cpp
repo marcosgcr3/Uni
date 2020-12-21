@@ -28,11 +28,11 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
 void cambiarColor(tColor color);                                                            // Cambia el color de la terminal en Windows en funcion del tipo de color introducido
 void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas calle2);   // Muestra el tablero
 
-bool hayGanador(int finalJuagdores[4], tJugadores jugadores);                                         // Determina si alguno de los jugadores ha ganado
-bool esSeguro(int casilla);                                                     // Determina si una casilla es segura
-bool enCasa(tJugadores jugadores, tColor color);                                // Determina si un jugador tiene alguna ficha en casa
-bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2);    // Determina si hay un puente en una casilla
-bool todasEnMeta(const tJugadores jugadores, tColor color);                     // Determina si un jugador tiene todas sus casillas en meta
+bool hayGanador(int finalJuagdores[4], tJugadores jugadores);                  // Determina si alguno de los jugadores ha ganado
+bool esSeguro(int casilla);                                                    // Determina si una casilla es segura
+bool enCasa(tJugadores jugadores, tColor color);                               // Determina si un jugador tiene alguna ficha en casa
+bool hayPuente(int casilla, const tCasillas calle1, const tCasillas calle2);   // Determina si hay un puente en una casilla
+bool todasEnMeta(const tJugadores jugadores, tColor color);                    // Determina si un jugador tiene todas sus casillas en meta
 
 int tirarDado();                                                        // Crea un numero aleatorio entre el 1 y el 6 
 int cuantasEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el numero de fichas que tiene un jugador en una casilla
@@ -42,7 +42,7 @@ int salidaJugador(tColor jugador);                                      // Devue
 int primeraEn(const tJugadores jugadores, int casilla, tColor color);   // Devuleve el menor indice de las fichas del jugador en una casilla
 int segundaEn(const tJugadores jugadores, int casilla, tColor color);   // Devuelve el mayor indice de las fichas del jugador en una casilla
 
-tColor jugadorAColor(int i);
+tColor jugadorAColor(int i); // Devuelve el color del jugador en funcion de un entero
 
 // PROBANDO FUNCIONES
 void saleFicha(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2){
@@ -78,16 +78,6 @@ int main(){
 
     iniciar(jugadores, calle1, calle2, turno);
 
-    jugadores[Amarillo][0] = 108;
-    jugadores[Amarillo][1] = 108;
-    jugadores[Amarillo][2] = 108;
-    jugadores[Amarillo][3] = 108;
-
-    if(hayGanador(finalJugadores, jugadores)){
-        cout << "Funciona!!!";
-    }
-
-    int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
 
     // FINALIZAN COMANDOS DE PRUEBA
@@ -120,8 +110,9 @@ int main(){
             exit(0);
             break;
         }
-        tablero(jugadores, calle1, calle2);        
-    }*/
+        tablero(jugadores, calle1, calle2);
+        pausa();
+        }*/
 
 
     return 0;
