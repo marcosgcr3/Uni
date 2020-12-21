@@ -58,6 +58,11 @@ void saleFicha(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas
     }
 }
 
+void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
+    jugadores[calle2[casilla]][segundaEn(jugadores, casilla, calle2[casilla])] = -1;
+    calle2[casilla] = Ninguno;
+}
+
 // TERMINANDO DE PROBAR FUNCIONES
 
 
@@ -71,14 +76,14 @@ int main(){
 
     int prueba;
     // COMIENZAN COMANDOS DE PRUEBA
-    
-    tablero(jugadores, calle1, calle2);
  
     saleFicha(jugadores, Amarillo, calle1, calle2);
- 
+
+    saleFicha(jugadores, Amarillo, calle1, calle2);
+
     tablero(jugadores, calle1, calle2);
 
-    saleFicha(jugadores, Azul, calle1, calle2);
+    aCasa(jugadores, 5, calle2);
 
     tablero(jugadores, calle1, calle2);
 
