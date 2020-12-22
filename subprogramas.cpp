@@ -71,12 +71,63 @@ bool procesa5(tJugadores jugadores, tColor jugador, int& premio, tCasillas calle
     if (enCasa(jugadores, jugador) && calle1[casillaSalida] != Ninguno){
 
     }
+    return true;
+}
+
+void abrirPuente(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2, int casilla, int casilla2, int& premio){
+    calle2[casilla] = Ninguno;
+    calle1[casilla2] = jugador;
+
+    if (calle1[casilla2] != Ninguno) {
+        if (calle1[casilla2] == jugador) {
+            calle2[casilla2] = jugador;
+        }
+        else if (calle1[casilla2] != jugador && !esSeguro(casilla2) {
+            premio = 20;
+            aCasa(jugadores, casilla2, calle1);
+            calle1[casilla2] = jugador;
+        }
+        else {
+            calle2[casilla2] = jugador;
+        }
+    }
+    else {
+        calle1[casilla2] = jugador;
+    }
+    jugadores[jugador][segundaEn(jugadores, casilla, jugador)] = casilla2;
 
 }
 
-void abrirPuente(){
-    
+bool procesa6(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2, tirarDado, aCasa){
+
+    tirarDado(){
+
+
+
+
+
+
+    }
+    int resultado = 0;
+    if (dado == 6){
+        cout << "\nVuelve a tirar ";
+        resultado += dado;
+
+        if (dado == 6){
+            cout << "Vuelve a tirar";
+            resultado += dado;
+
+            if (dado == 6){
+                cout << "A tu casa";
+                resultado = 0;
+                jugadores[calle2[casilla] = aCasa;
+
+            }
+        }
+    }
+    return resultado;
 }
+
 
 // TERMINANDO DE PROBAR FUNCIONES
 
@@ -89,7 +140,7 @@ int main(){
 
 
     iniciar(jugadores, calle1, calle2, turno);
-
+    tablero(jugadores, calle1, calle2);
     // COMIENZAN COMANDOS DE PRUEBA
 
     // FINALIZAN COMANDOS DE PRUEBA
@@ -165,19 +216,19 @@ void iniciar(tJugadores jugadores, tCasillas calle1, tCasillas calle2, int& turn
 void cambiarColor(tColor color){ // FUNCIONA 
     switch (color) {
     case Amarillo:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         break;
 
     case Azul:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_BLUE | FOREGROUND_INTENSITY);
         break;
 
     case Rojo:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_RED | FOREGROUND_INTENSITY);
         break;
 
     case Verde:
-        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN);
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), FOREGROUND_GREEN | FOREGROUND_INTENSITY);
         break;
     
     case Gris:
@@ -193,7 +244,6 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
     int casilla, ficha;
     tColor jugador;
 
-    cout << "\x1b[2J\x1b[H";
     cambiarColor(Gris);
     cout << endl;
 
