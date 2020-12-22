@@ -74,15 +74,14 @@ bool procesa5(tJugadores jugadores, tColor jugador, int& premio, tCasillas calle
     return true;
 }
 
-void abrirPuente(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2, int casilla, int casilla2, int& premio){
+void abrirPuente(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2, int casilla, int casilla2, int& premio) {
     calle2[casilla] = Ninguno;
-    calle1[casilla2] = jugador;
 
     if (calle1[casilla2] != Ninguno) {
         if (calle1[casilla2] == jugador) {
             calle2[casilla2] = jugador;
         }
-        else if (calle1[casilla2] != jugador && !esSeguro(casilla2) {
+        else if (calle1[casilla2] != jugador && !esSeguro(casilla2)) {
             premio = 20;
             aCasa(jugadores, casilla2, calle1);
             calle1[casilla2] = jugador;
@@ -95,37 +94,27 @@ void abrirPuente(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasill
         calle1[casilla2] = jugador;
     }
     jugadores[jugador][segundaEn(jugadores, casilla, jugador)] = casilla2;
-
 }
 
 bool procesa6(tJugadores jugadores, tColor jugador, tCasillas calle1, tCasillas calle2, tirarDado, aCasa){
-
-    tirarDado(){
-
-
-
-
-
-
-    }
-    int resultado = 0;
-    if (dado == 6){
+   int resultado = 0;
+   if (dado == 6){
         cout << "\nVuelve a tirar ";
         resultado += dado;
 
-        if (dado == 6){
-            cout << "Vuelve a tirar";
-            resultado += dado;
+           if (dado == 6){
+               cout << "Vuelve a tirar";
+               resultado += dado;
 
-            if (dado == 6){
-                cout << "A tu casa";
-                resultado = 0;
-                jugadores[calle2[casilla] = aCasa;
+               if (dado == 6){
+                   cout << "A tu casa";
+                   resultado = 0;
+                   jugadores[calle2[casilla] = aCasa;
 
-            }
-        }
-    }
-    return resultado;
+               }
+           }
+     }
+   return resultado;
 }
 
 
@@ -137,6 +126,7 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
+    system("Color 70");
 
 
     iniciar(jugadores, calle1, calle2, turno);
@@ -234,6 +224,8 @@ void cambiarColor(tColor color){ // FUNCIONA
     case Gris:
         SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 15);
         break;
+    case black:
+        SetConsoleTextAttribute(GetStdHandle(STD_OUTPUT_HANDLE), 240);
 
     default:
         break;
@@ -244,7 +236,7 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
     int casilla, ficha;
     tColor jugador;
 
-    cambiarColor(Gris);
+    cambiarColor(Black);
     cout << endl;
 
     //Previos
@@ -271,7 +263,7 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         else {
             cout << " ";
         }
-        cambiarColor(Gris);
+        cambiarColor(Black);
     }
     cout << endl;
 
@@ -295,7 +287,7 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         else {
             cout << " ";
         }
-        cambiarColor(Gris);
+        cambiarColor(Black);
     }
     cout << endl;
 
@@ -304,12 +296,12 @@ void tablero(const tJugadores jugadores, const tCasillas calle1, const tCasillas
         if (i == zanataJugador(jugador)) {
             cambiarColor(jugador);
             cout << "V";
-            cambiarColor(Gris);
+            cambiarColor(Black);
         }
         else if (i == salidaJugador(jugador)) {
             cambiarColor(jugador);
             cout << "^";
-            cambiarColor(Gris);
+            cambiarColor(Black);
             jugador = tColor(int(jugador) + 1);
         }
         else
@@ -490,6 +482,7 @@ bool todasEnMeta(const tJugadores jugadores, tColor color){ // FUNCIONA
     return jugadores[color][0] == 108 && jugadores[color][1] == 108 && jugadores[color][2] == 108 && jugadores[color][3] == 108;
 }
 
+// TCOLORS
 tColor jugadorAColor(int i){ // FUNCIONA
     switch (i)
     {
