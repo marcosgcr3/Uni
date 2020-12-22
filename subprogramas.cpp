@@ -65,7 +65,18 @@ void aCasa(tJugadores jugadores, int casilla, tCasillas calle2){
     calle2[casilla] = Ninguno;
 }
 
+bool procesa5(tJugadores jugadores, tColor jugador, int& premio, tCasillas calle1, tCasillas calle2){
+    int casillaSalida = salidaJugador(jugador);
 
+    if (enCasa(jugadores, jugador) && calle1[casillaSalida] != Ninguno){
+
+    }
+
+}
+
+void abrirPuente(){
+    
+}
 
 // TERMINANDO DE PROBAR FUNCIONES
 
@@ -75,6 +86,7 @@ int main(){
     tCasillas calle1, calle2;
     int turno, jugador;
     int finalJugadores[4] = {0, 0, 0, 0};
+
 
     iniciar(jugadores, calle1, calle2, turno);
 
@@ -416,9 +428,8 @@ bool esSeguro(int casilla){ //FUNCIONA
 }
 
 bool enCasa(tJugadores jugador, tColor color){ // FUNCIONA
-    for (int x = 0; x < 4; x++){
-        if (jugador[color][x] == -1){
-            cout << "Esta en casa";
+    for (int i = 0; i < 4; i++){
+        if (jugador[color][i] == -1){
             return true;
         }
     }
